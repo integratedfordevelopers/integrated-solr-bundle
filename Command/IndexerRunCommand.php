@@ -78,10 +78,10 @@ The <info>%command.name%</info> command starts a indexer run.
     {
         try {
             $lock = new LockHandler('Integrated\Bundle\SolrBundle\Command\IndexerRunCommand');
-            $attemps = 0;
+            $attempts = 0;
             while (!$lock->lock()) {
                 //retry for almost a minute, otherwise don't throw an error (after all another indexer is running)
-                if ($attemps++ >= 10) {
+                if ($attempts++ >= 10) {
                     return 0;
                 }
                 sleep(5);
@@ -89,6 +89,11 @@ The <info>%command.name%</info> command starts a indexer run.
 
             /** @var IndexerInterface $indexer */
             $indexer = $this->getContainer()->get('integrated_solr.indexer');
+
+            if ($output->isDebug() && method_exists($indexer, 'setDebug')) {
+                $indexer->setDebug();
+            }
+
             $indexer->execute();
 
         } catch (Exception $e) {
