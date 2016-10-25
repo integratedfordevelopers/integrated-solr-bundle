@@ -39,7 +39,7 @@ class FieldMapperType implements TypeInterface
     /**
      * @var PropertyAccessorInterface
      */
-    private $accessor;
+    protected $accessor;
 
     /**
      * Constructor.
@@ -81,6 +81,32 @@ class FieldMapperType implements TypeInterface
                 $this->append($container, $field, $value);
             }
         }
+    }
+
+    /**
+     * @param array $options
+     * @return array
+     */
+    protected function groupFields(array $options = [])
+    {
+        $fields = [];
+
+        // first group the options by field name
+
+        foreach ($options as $field => $value) {
+            if (is_array($value)) {
+                $field = $value[$index = isset($value['name']) ? 'name' : key($value)];
+                unset($value[$index]);
+            } else {
+                $value = ['@' . $value]; // convert simple config to advance config
+            }
+
+            foreach ($value as $key => $config) {
+                $fields[$field][$key] = $config;
+            }
+        }
+
+        return $fields;
     }
 
     /**
