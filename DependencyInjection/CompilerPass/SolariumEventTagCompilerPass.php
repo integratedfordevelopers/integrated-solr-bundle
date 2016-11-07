@@ -27,7 +27,7 @@ class SolariumEventTagCompilerPass implements CompilerPassInterface
     {
         $definition = $container->getDefinition('solarium.client');
         foreach ($container->findTaggedServiceIds('integrated_solr.event_subscriber') as $service => $tags) {
-            $definition ->addMethodCall('getEventDispatcher()->addSubscriber', [new Reference($service)]);
+            $definition->addMethodCall('getEventDispatcher()->addSubscriber', [new Reference($service)]);
         }
     }
 }
