@@ -13,6 +13,7 @@ namespace Integrated\Bundle\SolrBundle;
 
 use Integrated\Bundle\SolrBundle\DependencyInjection\CompilerPass\RegisterConfigFileProviderPass;
 use Integrated\Bundle\SolrBundle\DependencyInjection\CompilerPass\RegisterTypePass;
+use Integrated\Bundle\SolrBundle\DependencyInjection\CompilerPass\SolariumEventTagCompilerPass;
 use Integrated\Bundle\SolrBundle\DependencyInjection\IntegratedSolrExtension;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -30,6 +31,7 @@ class IntegratedSolrBundle extends Bundle
     {
         parent::build($container);
 
+        $container->addCompilerPass(new SolariumEventTagCompilerPass());
         $container->addCompilerPass(new RegisterConfigFileProviderPass());
         $container->addCompilerPass(new RegisterTypePass());
     }
