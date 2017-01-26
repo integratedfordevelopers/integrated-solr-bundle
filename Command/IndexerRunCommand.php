@@ -198,7 +198,7 @@ The <info>%command.name%</info> command starts a indexer run.
             }
 
             if (!$input->getOption('daemon')) {
-                if ($this->indexer->getQueue()->count()) {
+                if (!$this->indexer->getQueue()->count()) {
                     break;
                 }
             }
